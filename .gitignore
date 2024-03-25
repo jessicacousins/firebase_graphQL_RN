@@ -1,5 +1,6 @@
 echo ".env" >> .gitignore
 
+
 # dependencies
 node_modules/
 
@@ -29,16 +30,13 @@ yarn-error.*
 *.pem
 
 # local env files
-.env
 .env*.local
-
+*.env
 
 # typescript
 *.tsbuildinfo
 
 
-
 # firebaseConfig.js
 *firebase-adminsdk*.json
-
 
