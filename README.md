@@ -1,4 +1,4 @@
-# Firebase - GraphQL - React Native Demo
+# Firebase - GraphQL - News API - React Native Demo
 
 ## Description
 
