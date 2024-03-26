@@ -7,10 +7,12 @@ import {
   StyleSheet,
   Linking,
   TouchableOpacity,
+  SafeAreaView,
 } from "react-native";
 
 const NewsFeedScreen = () => {
   const [articles, setArticles] = useState([]);
+  const [readArticles, setReadArticles] = useState([]);
 
   useEffect(() => {
     fetchNewsArticles();
@@ -28,40 +30,68 @@ const NewsFeedScreen = () => {
     }
   };
 
+  const handlePress = (url) => {
+    Linking.openURL(url);
+    if (!readArticles.includes(url)) {
+      setReadArticles([...readArticles, url]);
+    }
+  };
+
   const renderItem = ({ item }) => (
     <TouchableOpacity
-      onPress={() => Linking.openURL(item.url)}
-      style={styles.item}
+      onPress={() => handlePress(item.url)}
+      style={[
+        styles.item,
+        readArticles.includes(item.url) ? styles.itemRead : {},
+      ]}
     >
       <Text style={styles.title}>{item.title}</Text>
     </TouchableOpacity>
   );
 
   return (
-    <View style={styles.container}>
-      <FlatList
-        data={articles}
-        renderItem={renderItem}
-        keyExtractor={(item) => item.url}
-      />
-    </View>
+    <SafeAreaView style={styles.safeArea}>
+      <View style={styles.container}>
+        <FlatList
+          data={articles}
+          renderItem={renderItem}
+          keyExtractor={(item) => item.url}
+        />
+      </View>
+    </SafeAreaView>
   );
 };
 
 const styles = StyleSheet.create({
+  safeArea: {
+    flex: 1,
+    backgroundColor: "#000",
+  },
   container: {
     flex: 1,
     marginTop: 20,
     backgroundColor: "#000",
   },
+
   item: {
-    backgroundColor: "#daffd1",
+    backgroundColor: "#32CD32",
     padding: 20,
     marginVertical: 8,
     marginHorizontal: 16,
+    shadowColor: "#fff",
+    shadowOffset: { width: 0, height: 0 },
+    shadowOpacity: 0.4,
+    shadowRadius: 10,
+    elevation: 12,
+    borderRadius: 20,
+  },
+  itemRead: {
+    backgroundColor: "#add8e6",
   },
   title: {
     fontSize: 16,
+    color: "#fff",
+    textAlign: "center",
   },
 });
 
